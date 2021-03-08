@@ -7,6 +7,8 @@
             android:theme="@style/CashUI.Theme"/>
         <activity android:name="cash.just.atm.StatusActivity" android:screenOrientation="portrait"
             android:theme="@style/CashUI.Theme.Dialog"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignUpActivity" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_key"/>

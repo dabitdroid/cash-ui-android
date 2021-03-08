@@ -53,6 +53,16 @@ object CashUI : CashUIProtocol {
     cashUI.showSupportPage(builder, fragmentManager)
   }
 
+  override fun showLogin(activity: Activity, requestCode:Int) {
+    checkInit()
+    cashUI.showLogin(activity, requestCode)
+  }
+
+  override fun showSignUp(activity: Activity, requestCode:Int) {
+    checkInit()
+    cashUI.showSignUp(activity, requestCode)
+  }
+
   private fun checkInit(){
     if (!init) {
       throw IllegalStateException(CashUI::class.java.simpleName + " was not initialized, did you call #init()?")

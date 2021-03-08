@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE_MAP = 0x01
         private const val REQUEST_CODE_LIST = 0x02
         private const val REQUEST_CODE_STATUS = 0x03
+        private const val REQUEST_CODE_LOGIN = 0x04
+        private const val REQUEST_CODE_SIGNUP = 0x05
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +68,14 @@ class MainActivity : AppCompatActivity() {
 
         openSupport.setOnClickListener {
             startActivity(Intent(this, SupportActivity::class.java))
+        }
+
+        login.setOnClickListener {
+            CashUI.showLogin(this@MainActivity, REQUEST_CODE_LOGIN)
+        }
+
+        singup.setOnClickListener {
+            CashUI.showSignUp(this@MainActivity, REQUEST_CODE_SIGNUP)
         }
     }
 

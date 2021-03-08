@@ -55,4 +55,12 @@ class CashUserInterfaceImpl : CashUIProtocol {
   override fun showSupportPage(builder: CashSupport.Builder, fragmentManager: FragmentManager) {
     builder.build().createDialogFragment().show(fragmentManager, "supportPage")
   }
+
+  override fun showLogin(activity: Activity, requestCode:Int) {
+    activity.startActivityForResult(Intent(activity, LoginActivity::class.java), requestCode)
+  }
+
+  override fun showSignUp(activity: Activity, requestCode:Int) {
+    activity.startActivityForResult(Intent(activity, SignUpActivity::class.java), requestCode)
+  }
 }
