@@ -64,10 +64,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+//
+//    api('cash.just.sdk:CashSDK:1.8:release@aar') {
+//        transitive = true
+//    }
 
-    api('cash.just.sdk:CashSDK:1.8:release@aar') {
-        transitive = true
-    }
+    api project(':CashSDK')
 
     // firebase services
     implementation platform('com.google.firebase:firebase-bom:26.3.0')
