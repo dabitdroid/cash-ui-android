@@ -27,4 +27,7 @@
     <string name="request_cash_out_dialog_message">"Please send the amount of %1$s BTC to the ATM"</string>
     <string name="request_cash_out_dialog_send_action">Send</string>
     <string name="request_cash_out_dialog_details_action">Details</string>
+    <string name="login_success">Login Successful</string>
+    <string name="otp_verification_success">OTP verification successful</string>
+    <string name="registration_successful">Registration Successful</string>
 </resources>

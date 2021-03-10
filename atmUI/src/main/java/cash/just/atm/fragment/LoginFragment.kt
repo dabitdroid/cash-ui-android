@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import cash.just.atm.AuthSharedPreferenceManager
 import cash.just.atm.R
 import cash.just.atm.model.BitcoinServer.getServer
-import cash.just.atm.viewmodel.StatusViewModel
 import cash.just.sdk.Cash
 import cash.just.sdk.CashSDK
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -38,7 +37,7 @@ class LoginFragment : Fragment() {
                             it1
                         )
                     }
-                    Toast.makeText(appContext, "Login successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, R.string.login_success, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(errorMessage: String?) {
@@ -50,7 +49,7 @@ class LoginFragment : Fragment() {
         confirmButton.setOnClickListener {
             CashSDK.loginConfirm(confirmLogin.text.toString(), object: Cash.WacCallback {
                 override fun onSucceed() {
-                    Toast.makeText(appContext, "on succeed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, R.string.otp_verification_success, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(errorMessage: String?) {

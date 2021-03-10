@@ -44,7 +44,7 @@ class SignUpFragment : Fragment() {
                                 it1
                             )
                         }
-                        Toast.makeText(appContext, "Registration successful", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(appContext, R.string.registration_successful, Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onError(errorMessage: String?) {
@@ -56,7 +56,7 @@ class SignUpFragment : Fragment() {
         confirmButton.setOnClickListener {
             CashSDK.loginConfirm(confirmLogin.text.toString(), object: Cash.WacCallback {
                 override fun onSucceed() {
-                    Toast.makeText(appContext, "on succeed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, R.string.otp_verification_success, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(errorMessage: String?) {
