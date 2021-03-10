@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import cash.just.atm.AuthSharedPreferenceManager
 import cash.just.atm.R
 import cash.just.atm.model.BitcoinServer.getServer
 import cash.just.sdk.Cash
 import cash.just.sdk.CashSDK
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_singup.*
+import kotlinx.android.synthetic.main.fragment_singup.confirmButton
+import kotlinx.android.synthetic.main.fragment_singup.confirmLogin
 
 class SignUpFragment : Fragment() {
     private lateinit var appContext: Context
@@ -34,7 +38,13 @@ class SignUpFragment : Fragment() {
                 registerName.text.toString(),
                 registerSurname.text.toString(), object:Cash.WacCallback {
                     override fun onSucceed() {
-                        Toast.makeText(appContext, "registered", Toast.LENGTH_SHORT).show()
+                        AuthSharedPreferenceManager.setPhone(appContext, registerPhoneNumber.text.toString())
+                        CashSDK.getSession()?.let { it1 ->
+                            AuthSharedPreferenceManager.setSession(appContext,
+                                it1
+                            )
+                        }
+                        Toast.makeText(appContext, "Registration successful", Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onError(errorMessage: String?) {

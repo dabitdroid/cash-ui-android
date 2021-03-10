@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
                             it1
                         )
                     }
-                    Toast.makeText(appContext, "on succeed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(appContext, "Login successful", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onError(errorMessage: String?) {
