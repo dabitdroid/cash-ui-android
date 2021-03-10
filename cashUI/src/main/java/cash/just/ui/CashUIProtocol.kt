@@ -10,6 +10,14 @@ import cash.just.atm.base.SendDataResult
 import cash.just.sdk.Cash
 import cash.just.support.CashSupport
 
+enum class UserState {
+  GUEST,
+  KYC_NOT_VERIFIED,
+  KYC_VERIFIED,
+  NOT_VALID,
+  KYC_VERIFYING
+}
+
 interface CashUIProtocol {
   fun init(network: Cash.BtcNetwork)
   fun startCashOutActivityForResult(activity: Activity, requestCode:Int)
@@ -21,5 +29,6 @@ interface CashUIProtocol {
   fun showSupportPage(builder: CashSupport.Builder, fragmentManager: FragmentManager)
   fun showLogin(activity: Activity, requestCode:Int)
   fun showSignUp(activity: Activity, requestCode:Int)
-  //fun showKyc(activity: Activity)
+  fun showProfile(activity: Activity, requestCode: Int)
+  //fun getUserState(): UserState
 }

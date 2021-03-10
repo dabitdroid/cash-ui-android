@@ -63,4 +63,8 @@ class CashUserInterfaceImpl : CashUIProtocol {
   override fun showSignUp(activity: Activity, requestCode:Int) {
     activity.startActivityForResult(Intent(activity, SignUpActivity::class.java), requestCode)
   }
+
+  override fun showProfile(activity: Activity, requestCode: Int) {
+    activity.startActivity(Intent(activity, ShowProfileActivity::class.java))
+  }
 }

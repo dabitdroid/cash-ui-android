@@ -9,11 +9,16 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import cash.just.atm.AtmSharedPreferencesManager
+import cash.just.atm.AuthSharedPreferenceManager
 import cash.just.atm.base.AtmResult
 import cash.just.atm.base.saveFunctions
 import cash.just.atm.model.BitcoinServer
 import cash.just.sdk.Cash
+import cash.just.sdk.CashSDK
 import cash.just.support.context
+import cash.just.support.launchWebsite
 import cash.just.ui.CashUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -23,7 +28,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE_STATUS = 0x03
         private const val REQUEST_CODE_LOGIN = 0x04
         private const val REQUEST_CODE_SIGNUP = 0x05
+        private const val REQUEST_CODE_SHOW_PROFILE = 0x06
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +81,19 @@ class MainActivity : AppCompatActivity() {
 
         singup.setOnClickListener {
             CashUI.showSignUp(this@MainActivity, REQUEST_CODE_SIGNUP)
+        }
+
+        profile.setOnClickListener {
+            var session: String = ""
+            AuthSharedPreferenceManager.getSession(context)?.let {
+                session = it
+            }
+            if(session.isEmpty()) {
+                Toast.makeText(context, "Please login to access profile page", Toast.LENGTH_SHORT).show()
+            } else {
+            val lifecycleOwner: LifecycleOwner = this
+            lifecycleOwner.launchWebsite("https://cash-dev.coinsquareatm.com/external#key=${session}&mode=kyc")
+            }
         }
     }
 

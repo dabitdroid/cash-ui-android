@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import cash.just.atm.AuthSharedPreferenceManager
 import cash.just.atm.R
 import cash.just.atm.model.BitcoinServer.getServer
 import cash.just.atm.viewmodel.StatusViewModel
@@ -31,6 +32,12 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener {
             CashSDK.login(getServer(), userPhoneNumber.text.toString(), object : Cash.WacCallback {
                 override fun onSucceed() {
+                    AuthSharedPreferenceManager.setPhone(appContext, userPhoneNumber.text.toString())
+                    CashSDK.getSession()?.let { it1 ->
+                        AuthSharedPreferenceManager.setSession(appContext,
+                            it1
+                        )
+                    }
                     Toast.makeText(appContext, "on succeed", Toast.LENGTH_SHORT).show()
                 }
 
