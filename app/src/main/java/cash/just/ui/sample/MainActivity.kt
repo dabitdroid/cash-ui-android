@@ -84,16 +84,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         profile.setOnClickListener {
-            var session: String = ""
+            var session = ""
             AuthSharedPreferenceManager.getSession(context)?.let {
                 session = it
             }
             if(session.isEmpty()) {
                 Toast.makeText(context, "Please login to access profile page", Toast.LENGTH_SHORT).show()
             } else {
-            val lifecycleOwner: LifecycleOwner = this
-            lifecycleOwner.launchWebsite("https://cash-dev.coinsquareatm.com/external#key=${session}&mode=kyc")
+                val lifecycleOwner: LifecycleOwner = this
+                lifecycleOwner.launchWebsite("https://cash-dev.coinsquareatm.com/external#key=${session}&mode=kyc")
             }
+        }
+
+        userStateButton.setOnClickListener {
+            userState.text = CashSDK.getUserState().toString()
         }
     }
 
