@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import cash.just.atm.AtmSharedPreferencesManager
-import cash.just.atm.AuthSharedPreferenceManager
+import cash.just.sdk.AuthSharedPreferenceManager
 import cash.just.atm.base.AtmResult
 import cash.just.atm.base.saveFunctions
 import cash.just.atm.model.BitcoinServer

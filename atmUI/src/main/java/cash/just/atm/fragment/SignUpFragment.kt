@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import cash.just.atm.AuthSharedPreferenceManager
+import cash.just.sdk.AuthSharedPreferenceManager
 import cash.just.atm.R
 import cash.just.atm.model.BitcoinServer.getServer
 import cash.just.sdk.Cash
 import cash.just.sdk.CashSDK
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_singup.*
 import kotlinx.android.synthetic.main.fragment_singup.confirmButton
 import kotlinx.android.synthetic.main.fragment_singup.confirmLogin
