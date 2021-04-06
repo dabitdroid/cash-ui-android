@@ -15,6 +15,7 @@
         <activity android:name=".SignUpActivity" android:screenOrientation="portrait"
             android:theme="@style/CashUI.Theme.Dialog"/>
         <activity android:name=".ShowProfileActivity" />
+        <activity android:name=".ScannerActivity" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_key"/>

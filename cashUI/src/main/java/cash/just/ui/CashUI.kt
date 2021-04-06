@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.fragment.app.FragmentManager
 import cash.just.atm.base.AtmResult
 import cash.just.atm.base.DetailsDataResult
+import cash.just.atm.base.ScanDataResult
 import cash.just.atm.base.SendDataResult
 import cash.just.sdk.Cash
 import cash.just.support.CashSupport
@@ -48,6 +49,11 @@ object CashUI : CashUIProtocol {
     return cashUI.getDetailsData(intent)
   }
 
+  override fun getScanDetailsData(intent:Intent): ScanDataResult? {
+    checkInit()
+    return cashUI.getScanDetailsData(intent)
+  }
+
   override fun showSupportPage(builder: CashSupport.Builder, fragmentManager: FragmentManager) {
     checkInit()
     cashUI.showSupportPage(builder, fragmentManager)
@@ -66,6 +72,11 @@ object CashUI : CashUIProtocol {
   override fun showProfile(activity: Activity, requestCode: Int) {
     checkInit()
     cashUI.showProfile(activity, requestCode)
+  }
+
+  override fun scanDocument(activity: Activity, requestCode: Int) {
+    checkInit()
+    cashUI.scanDocument(activity, requestCode)
   }
 
   private fun checkInit(){

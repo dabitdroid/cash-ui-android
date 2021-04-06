@@ -70,11 +70,11 @@ dependencies {
 //        transitive = true
 //    }
 
-    /*api('com.github.atmcoin:cash-sdk-android:2.1:debug@aar') {
+    api('com.github.atmcoin:cash-sdk-android:2.4:debug@aar') {
         transitive = true
-    }*/
+    }
 
-    api project(':CashSDK')
+    //api project(':CashSDK')
 
     // firebase services
     implementation platform('com.google.firebase:firebase-bom:26.3.0')

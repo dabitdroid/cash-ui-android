@@ -1,21 +1,29 @@
 package cash.just.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
+
 import androidx.fragment.app.FragmentManager
 import cash.just.atm.*
-import cash.just.atm.base.AtmFlowActivity
-import cash.just.atm.base.AtmResult
-import cash.just.atm.base.DetailsDataResult
-import cash.just.atm.base.SendDataResult
+import android.content.Context
+import cash.just.atm.base.*
+import cash.just.sdk.AuthSharedPreferenceManager
 import cash.just.sdk.Cash
 import cash.just.sdk.CashSDK
 import cash.just.support.CashSupport
+import com.google.zxing.integration.android.IntentIntegrator
 import timber.log.Timber
 
 class CashUserInterfaceImpl : CashUIProtocol {
   override fun init(network: Cash.BtcNetwork) {
+    //TODO: If session has been stored in the sharedPreference, session should be validated and userState should be refreshed.
+    /*val let = AuthSharedPreferenceManager.getSession(context)?.let {
+      AsyncTask.execute {
+        CashSDK.getUserState(true)
+      }
+    }*/
+
     CashSDK.createGuestSession(network, object:Cash.SessionCallback {
       override fun onSessionCreated(sessionKey: String) {
         Timber.d("Session created")
@@ -52,6 +60,10 @@ class CashUserInterfaceImpl : CashUIProtocol {
     return AtmFlowActivity.getDetailsData(intent)
   }
 
+  override fun getScanDetailsData(intent:Intent): ScanDataResult? {
+    return AtmFlowActivity.getScanDetailsData(intent)
+  }
+
   override fun showSupportPage(builder: CashSupport.Builder, fragmentManager: FragmentManager) {
     builder.build().createDialogFragment().show(fragmentManager, "supportPage")
   }
@@ -66,5 +78,10 @@ class CashUserInterfaceImpl : CashUIProtocol {
 
   override fun showProfile(activity: Activity, requestCode: Int) {
     activity.startActivity(Intent(activity, ShowProfileActivity::class.java))
+  }
+
+  override fun scanDocument(activity: Activity, requestCode: Int) {
+    val intent = Intent(activity, ScannerActivity::class.java)
+    activity.startActivityForResult(intent, requestCode)
   }
 }

@@ -7,16 +7,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import cash.just.atm.AtmSharedPreferencesManager
 import cash.just.sdk.AuthSharedPreferenceManager
 import cash.just.atm.base.AtmResult
 import cash.just.atm.base.saveFunctions
 import cash.just.atm.model.BitcoinServer
 import cash.just.sdk.Cash
 import cash.just.sdk.CashSDK
+import cash.just.atm.utils.DriverLicenseUtil
+import cash.just.atm.base.ScanDataResult
 import cash.just.support.context
 import cash.just.support.launchWebsite
 import cash.just.ui.CashUI
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_CODE_LOGIN = 0x04
         private const val REQUEST_CODE_SIGNUP = 0x05
         private const val REQUEST_CODE_SHOW_PROFILE = 0x06
+        private const val REQUEST_CODE_SCAN_DOCUMENT = 0x07
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +87,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         profile.setOnClickListener {
-            var session = ""
+            var session: String? = null
             AuthSharedPreferenceManager.getSession(context)?.let {
                 session = it
             }
-            if(session.isEmpty()) {
+            if(session == null) {
                 Toast.makeText(context, "Please login to access profile page", Toast.LENGTH_SHORT).show()
             } else {
                 val lifecycleOwner: LifecycleOwner = this
@@ -97,17 +100,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         userStateButton.setOnClickListener {
-            userState.text = CashSDK.getUserState().toString()
+            userState.text = CashSDK.getUserState(false).toString()
+        }
+
+        scanQrCode.setOnClickListener {
+            CashUI.scanDocument(this@MainActivity, REQUEST_CODE_SCAN_DOCUMENT)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_MAP || requestCode == REQUEST_CODE_LIST || requestCode == REQUEST_CODE_STATUS) {
+        if (requestCode == REQUEST_CODE_MAP || requestCode == REQUEST_CODE_LIST || requestCode == REQUEST_CODE_STATUS || requestCode == REQUEST_CODE_SCAN_DOCUMENT) {
             when (resultCode) {
                 Activity.RESULT_CANCELED -> {
                     Toast.makeText(context, "Result Cancelled", Toast.LENGTH_SHORT).show()
-                    consoleLog.setText("Result Cancelled")
+                    consoleLog.setText(getString(R.string.result_cancelled))
                 }
                 Activity.RESULT_OK -> {
                     Toast.makeText(context, "Result Ok", Toast.LENGTH_SHORT).show()
@@ -121,6 +128,22 @@ class MainActivity : AppCompatActivity() {
                                 AtmResult.DETAILS -> {
                                     val details = CashUI.getDetailsData(it)
                                     consoleLog.setText("Result OK \n" + details.toString())
+                                }
+                                AtmResult.SCAN -> {
+                                    val resultData: ScanDataResult? = CashUI.getScanDetailsData(it)
+                                    println(result)
+                                    driverDetails.visibility = View.VISIBLE
+                                    if (resultData != null) {
+                                        driverDetails.text =
+                                            "Driver Name: ${resultData.resultMaps.get(
+                                                DriverLicenseUtil.FIRST_NAME)} ${resultData.resultMaps.get(
+                                                DriverLicenseUtil.LAST_NAME
+                                            )} " +
+                                                    "\nLicense Number: ${resultData.resultMaps.get(
+                                                        DriverLicenseUtil.LICENSE_NUMBER)} " +
+                                                    "\nAddress: ${resultData.resultMaps.get(
+                                                        DriverLicenseUtil.STREET)}"
+                                    }
                                 }
                             }
                         }

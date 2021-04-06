@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="SignUp"
+            android:text="@string/signup"
             android:textColor="@color/black"
             android:textSize="25dp" />
 
@@ -40,19 +40,19 @@
 
             <EditText
                 android:id="@+id/registerPhoneNumber"
-                android:hint="phone number"
+                android:hint="@string/phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/registerName"
-                android:hint="name"
+                android:hint="@string/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/registerSurname"
-                android:hint="surname"
+                android:hint="@string/surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -60,11 +60,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/registerButton"
-                android:text="Register" />
+                android:text="@string/register" />
 
             <EditText
                 android:id="@+id/confirmLogin"
-                android:hint="Confirm login"
+                android:hint="@string/confirm_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/confirmButton"
-                android:text="Confirm" />
+                android:text="@string/confirm" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

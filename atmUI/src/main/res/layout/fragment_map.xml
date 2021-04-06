@@ -32,7 +32,7 @@
                 android:layout_marginEnd="10dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/transparent"
-                android:text="Show Redeem Only"
+                android:text="@string/show_redeem_only"
                 android:textColor="@color/light_gray"
                 android:textSize="12sp" />
 
