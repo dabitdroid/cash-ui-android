@@ -7,33 +7,40 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import cash.just.sdk.AuthSharedPreferenceManager
 import cash.just.atm.base.AtmResult
+import cash.just.atm.base.saveFunctions
 import cash.just.atm.model.BitcoinServer
 import cash.just.sdk.Cash
+import cash.just.sdk.CashSDK
+import cash.just.atm.utils.DriverLicenseUtil
+import cash.just.atm.base.ScanDataResult
 import cash.just.support.context
+import cash.just.support.launchWebsite
 import cash.just.ui.CashUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.FirebaseFunctionsException
-import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
-import java.util.*
-
 
 class MainActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_MAP = 0x01
         private const val REQUEST_CODE_LIST = 0x02
         private const val REQUEST_CODE_STATUS = 0x03
+        private const val REQUEST_CODE_LOGIN = 0x04
+        private const val REQUEST_CODE_SIGNUP = 0x05
+        private const val REQUEST_CODE_SHOW_PROFILE = 0x06
+        private const val REQUEST_CODE_SCAN_DOCUMENT = 0x07
     }
-
-    private lateinit var functions: FirebaseFunctions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +58,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        functions = Firebase.functions
-
-        getToken()
+        Firebase.saveFunctions()?.let {
+            getToken(it)
+        }
 
         openMaps.setOnClickListener {
             CashUI.startCashOutActivityForResult(this@MainActivity, REQUEST_CODE_MAP)
@@ -70,15 +77,44 @@ class MainActivity : AppCompatActivity() {
         openSupport.setOnClickListener {
             startActivity(Intent(this, SupportActivity::class.java))
         }
+
+        login.setOnClickListener {
+            CashUI.showLogin(this@MainActivity, REQUEST_CODE_LOGIN)
+        }
+
+        singup.setOnClickListener {
+            CashUI.showSignUp(this@MainActivity, REQUEST_CODE_SIGNUP)
+        }
+
+        profile.setOnClickListener {
+            var session: String? = null
+            AuthSharedPreferenceManager.getSession(context)?.let {
+                session = it
+            }
+            if(session == null) {
+                Toast.makeText(context, "Please login to access profile page", Toast.LENGTH_SHORT).show()
+            } else {
+                val lifecycleOwner: LifecycleOwner = this
+                lifecycleOwner.launchWebsite("https://cash-dev.coinsquareatm.com/external#key=${session}&mode=kyc")
+            }
+        }
+
+        userStateButton.setOnClickListener {
+            userState.text = CashSDK.getUserState(false).toString()
+        }
+
+        scanQrCode.setOnClickListener {
+            CashUI.scanDocument(this@MainActivity, REQUEST_CODE_SCAN_DOCUMENT)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_MAP || requestCode == REQUEST_CODE_LIST || requestCode == REQUEST_CODE_STATUS) {
+        if (requestCode == REQUEST_CODE_MAP || requestCode == REQUEST_CODE_LIST || requestCode == REQUEST_CODE_STATUS || requestCode == REQUEST_CODE_SCAN_DOCUMENT) {
             when (resultCode) {
                 Activity.RESULT_CANCELED -> {
                     Toast.makeText(context, "Result Cancelled", Toast.LENGTH_SHORT).show()
-                    consoleLog.setText("Result Cancelled")
+                    consoleLog.setText(getString(R.string.result_cancelled))
                 }
                 Activity.RESULT_OK -> {
                     Toast.makeText(context, "Result Ok", Toast.LENGTH_SHORT).show()
@@ -93,6 +129,22 @@ class MainActivity : AppCompatActivity() {
                                     val details = CashUI.getDetailsData(it)
                                     consoleLog.setText("Result OK \n" + details.toString())
                                 }
+                                AtmResult.SCAN -> {
+                                    val resultData: ScanDataResult? = CashUI.getScanDetailsData(it)
+                                    println(result)
+                                    driverDetails.visibility = View.VISIBLE
+                                    if (resultData != null) {
+                                        driverDetails.text =
+                                            "Driver Name: ${resultData.resultMaps.get(
+                                                DriverLicenseUtil.FIRST_NAME)} ${resultData.resultMaps.get(
+                                                DriverLicenseUtil.LAST_NAME
+                                            )} " +
+                                                    "\nLicense Number: ${resultData.resultMaps.get(
+                                                        DriverLicenseUtil.LICENSE_NUMBER)} " +
+                                                    "\nAddress: ${resultData.resultMaps.get(
+                                                        DriverLicenseUtil.STREET)}"
+                                    }
+                                }
                             }
                         }
                     }
@@ -101,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getToken() {
+    private fun getToken(functions: FirebaseFunctions) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Timber.tag(TAG).w(task.exception, "Fetching FCM registration token failed")
@@ -110,9 +162,9 @@ class MainActivity : AppCompatActivity() {
             // Get new FCM registration token
             val token = task.result
 
-            registerToken(token)
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
+            registerToken(functions, token)
+                .addOnCompleteListener(OnCompleteListener { registerTask ->
+                    if (!registerTask.isSuccessful) {
                         val e = task.exception
                         if (e is FirebaseFunctionsException) {
                             val code = e.code
@@ -128,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun registerToken(token: String?): Task<String>  {
+    private fun registerToken(functions: FirebaseFunctions, token: String?): Task<String>  {
         val packageVersion = getPackageVersion()
         val data = hashMapOf(
             "fcmToken" to token,
@@ -170,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 context.packageManager.getPackageInfo(context.packageName, 0)
             pInfo.versionName
         } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+            Timber.e(e)
         }
     }
 }

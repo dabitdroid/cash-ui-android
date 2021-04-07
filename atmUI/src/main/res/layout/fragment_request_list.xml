@@ -43,7 +43,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ATM Cash Out Requests"
+                    android:text="@string/atm_cash_out_requests"
                     android:textColor="@color/black"
                     android:textSize="25dp" />
 
@@ -84,7 +84,7 @@
                     android:gravity="center_horizontal"
                     android:paddingTop="40dp"
                     android:paddingBottom="40dp"
-                    android:text="You have no requests, start your first ATM cash out sending some BTC."
+                    android:text="@string/you_have_no_requests_start_your_first_atm_cash_out_sending_some_btc"
                     android:textColor="@color/black"
                     android:textSize="17dp" />
 
@@ -98,7 +98,7 @@
                     android:padding="10dp"
                     android:paddingStart="25dp"
                     android:paddingEnd="25dp"
-                    android:text="Request Now"
+                    android:text="@string/request_now"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

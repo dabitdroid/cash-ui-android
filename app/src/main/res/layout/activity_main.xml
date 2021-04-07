@@ -20,7 +20,7 @@
 
             <TextView
                 android:textSize="25dp"
-                android:text="atmUI"
+                android:text="@string/atm_ui"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
@@ -30,8 +30,8 @@
                 android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOff="MAINNET"
-                android:textOn="TESTNET"/>
+                android:textOff="@string/mainnet"
+                android:textOn="@string/testnet"/>
         </LinearLayout>
 
         <LinearLayout
@@ -42,13 +42,13 @@
 
             <Button
                 android:id="@+id/openMaps"
-                android:text="Atm Map"
+                android:text="@string/atm_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/openActivity"
-                android:text="Open Activity"
+                android:text="@string/open_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -59,17 +59,32 @@
 
                 <EditText
                     android:id="@+id/cashCode"
-                    android:hint="cashCode"
+                    android:hint="@string/cash_code"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"/>
 
                 <Button
                     android:id="@+id/openStatus"
-                    android:text="Open Status"
+                    android:text="@string/open_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:layout_gravity="start"
+            android:id="@+id/scanQrCode"
+            android:text="Scan QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:lines="4"
+            android:id="@+id/driverDetails"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:lines="10"
             android:id="@+id/consoleLog"
@@ -79,8 +94,55 @@
         <Button
             android:id="@+id/openSupport"
             android:layout_marginTop="10dp"
-            android:text="Open Support"
+            android:text="@string/open_support"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/login"
+                android:text="@string/login"
+                android:layout_marginEnd="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/singup"
+                android:text="@string/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/profile"
+            android:layout_marginTop="10dp"
+            android:text="@string/open_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/userStateButton"
+                android:layout_marginTop="10dp"
+                android:text="@string/get_user_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/userState"
+                android:textSize="25dp"
+                android:text="@string/user_state"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
