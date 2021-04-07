@@ -11,12 +11,14 @@ import java.io.Serializable
 interface AtmFlow {
     fun onSend(btcAmount: String, address: String)
     fun onDetails(secureCode: String, cashCodeStatus: CashStatus)
+    fun onScanResult(resultMaps: HashMap<String, String>)
 }
 
-enum class AtmResult { SEND, DETAILS }
+enum class AtmResult { SEND, DETAILS, SCAN }
 
 data class SendDataResult(val btcAmount:String, val address:String): Serializable
 data class DetailsDataResult(val secureCode:String, val cashCodeStatus: CashStatus): Serializable
+data class ScanDataResult(val resultMaps: HashMap<String, String>): Serializable
 
 abstract class AtmFlowActivity : AppCompatActivity(), AtmFlow {
     companion object {
@@ -43,6 +45,13 @@ abstract class AtmFlowActivity : AppCompatActivity(), AtmFlow {
             return null
         }
 
+        fun getScanDetailsData(detailsIntent: Intent): ScanDataResult? {
+            if (detailsIntent.hasExtra(ARGS_DATA_RESULT)) {
+                return detailsIntent.getSerializableExtra(ARGS_DATA_RESULT) as ScanDataResult
+            }
+            return null
+        }
+
         fun buildIntent(result: DetailsDataResult) : Intent {
             val intent = Intent()
             intent.putExtra(ARGS_RESULT, AtmResult.DETAILS)
@@ -53,6 +62,13 @@ abstract class AtmFlowActivity : AppCompatActivity(), AtmFlow {
         fun buildIntent(result: SendDataResult) : Intent {
             val intent = Intent()
             intent.putExtra(ARGS_RESULT, AtmResult.SEND)
+            intent.putExtra(ARGS_DATA_RESULT, result)
+            return intent
+        }
+
+        fun buildIntent(result: ScanDataResult) : Intent {
+            val intent = Intent()
+            intent.putExtra(ARGS_RESULT, AtmResult.SCAN)
             intent.putExtra(ARGS_DATA_RESULT, result)
             return intent
         }
@@ -75,5 +91,10 @@ abstract class AtmFlowActivity : AppCompatActivity(), AtmFlow {
         val intent = buildIntent(DetailsDataResult(secureCode, cashCodeStatus))
         setResult(RESULT_OK, intent)
         finish()
+    }
+
+    override fun onScanResult(resultMaps: HashMap<String, String>) {
+        val intent = buildIntent(ScanDataResult(resultMaps))
+        setResult(RESULT_OK, intent)
     }
 }

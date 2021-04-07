@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
-            android:text="Support"
+            android:text="@string/support"
             android:textColor="#FFFF"
             android:textSize="25dp" />
 
