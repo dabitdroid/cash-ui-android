@@ -17,4 +17,7 @@
     <string name="user_state">User State</string>
     <string name="supportui">supportUI</string>
     <string name="result_cancelled">Result Cancelled</string>
+    <string name="id_front">ID Front</string>
+    <string name="id_back">ID Back</string>
+    <string name="selfie">Selfie</string>
 </resources>
