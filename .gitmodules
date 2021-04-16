@@ -1,0 +1,4 @@
+[submodule "cash-sdk-android"]
+	path = cash-sdk-android
+	url = https://github.com/atmcoin/cash-sdk-android.git
+	branch = master

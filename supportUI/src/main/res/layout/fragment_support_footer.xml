@@ -12,7 +12,7 @@
         android:paddingBottom="15dp">
         <TextView
             android:id="@+id/privacyLink"
-            android:text="Privacy Policy"
+            android:text="@string/privacy_policy"
             android:gravity="center_horizontal"
             android:textColor="#FFFFFF"
             android:layout_width="match_parent"

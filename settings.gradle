@@ -2,3 +2,5 @@ include ':app'
 include ':supportUI'
 include ':atmUI'
 include ':cashUI'
+include ':CashSDK'
+project(':CashSDK').projectDir = file("cash-sdk-android/CashSDK")

@@ -2,11 +2,24 @@
     package="cash.just.atm">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA2" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <application>
         <activity android:name="cash.just.atm.AtmActivity" android:screenOrientation="portrait"
             android:theme="@style/CashUI.Theme"/>
         <activity android:name="cash.just.atm.StatusActivity" android:screenOrientation="portrait"
             android:theme="@style/CashUI.Theme.Dialog"/>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait"
+            android:theme="@style/CashUI.Theme.Dialog"/>
+        <activity android:name=".SignUpActivity" android:screenOrientation="portrait"
+            android:theme="@style/CashUI.Theme.Dialog"/>
+        <activity android:name=".ShowProfileActivity" />
+        <activity android:name=".ScannerActivity" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_key"/>

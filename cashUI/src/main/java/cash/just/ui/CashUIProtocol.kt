@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.fragment.app.FragmentManager
 import cash.just.atm.base.AtmResult
 import cash.just.atm.base.DetailsDataResult
+import cash.just.atm.base.ScanDataResult
 import cash.just.atm.base.SendDataResult
 import cash.just.sdk.Cash
 import cash.just.support.CashSupport
@@ -18,5 +19,11 @@ interface CashUIProtocol {
   fun getResult(intent:Intent): AtmResult?
   fun getSendData(intent:Intent): SendDataResult?
   fun getDetailsData(intent:Intent): DetailsDataResult?
+  fun getScanDetailsData(intent:Intent): ScanDataResult?
   fun showSupportPage(builder: CashSupport.Builder, fragmentManager: FragmentManager)
+  fun showLogin(activity: Activity, requestCode:Int)
+  fun showSignUp(activity: Activity, requestCode:Int)
+  fun showProfile(activity: Activity, requestCode: Int)
+  fun scanDocument(activity: Activity, requestCode: Int)
+  //fun getUserState(): UserState
 }
