@@ -13,6 +13,7 @@
     <string name="login">Login</string>
     <string name="signup">SignUp</string>
     <string name="open_profile">Open Profile</string>
+    <string name="profile_webview">Profile Webview</string>
     <string name="get_user_state">Get User State</string>
     <string name="user_state">User State</string>
     <string name="supportui">supportUI</string>

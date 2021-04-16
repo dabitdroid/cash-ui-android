@@ -49,4 +49,8 @@
     <string name="register">Register</string>
     <string name="confirm_login">Confirm login</string>
     <string name="confirm">Confirm</string>
+    <string name="ssn">SSN</string>
+    <string name="scan_license">Scan Document</string>
+    <string name="profile_info">Get Profile Info</string>
+    <string name="kyc_details">Get Kyc Details</string>
 </resources>
