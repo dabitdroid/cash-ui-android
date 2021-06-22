@@ -13,12 +13,12 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/atmUI" />
+            <option value="$PROJECT_DIR$/cash-sdk-android/CashSDK" />
             <option value="$PROJECT_DIR$/cashUI" />
             <option value="$PROJECT_DIR$/supportUI" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
-        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
